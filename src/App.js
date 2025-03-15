@@ -31,9 +31,9 @@ const App = () => {
   const bottomRef = useRef(null); // Ref to the bottom of the chat window for smooth scrolling
 
   const exampleQuestions = [ // Predefined example questions for quick interactions
-    'What digital services do you offer?',
-    'Can you help me with automation solutions?',
-    'Tell me more about cloud services.',
+    'What is a rare disease?',
+    'How can I find information about a specific rare disease?',
+    'Are there any treatments available for rare diseases?',
   ];
 
   // Effect hook for initializing bot connection
@@ -140,8 +140,8 @@ const App = () => {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1 className="app-title">ask<span style={{ fontWeight: 'bold' }}>Marlabs</span></h1> 
-        <p className="app-subtitle">Your guide to digital solutions</p>
+        <h1 className="app-title">Rare<span style={{ fontWeight: 'bold' }}>Diseases</span></h1> 
+        <p className="app-subtitle">Helping You with Rare Disease Queries</p>
       </header>
       <main className="chat-container">
         {error ? ( // Show error message if there's an error
@@ -174,7 +174,7 @@ const App = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)} // Update input state on change
                 onKeyDown={handleKeyDown} // Handle 'Enter' key
-                placeholder="Hi there! How can I assist you today?"
+                placeholder="Ask me anything about rare diseases"
                 disabled={isLoading} // Disable input when loading
                 className={isLoading ? 'input-disabled' : ''}
               />
