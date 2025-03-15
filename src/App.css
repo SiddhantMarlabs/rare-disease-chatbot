@@ -1,0 +1,258 @@
+/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+.app-container {
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.app-header {
+  margin-bottom: 20px;
+}
+
+.app-title {
+  font-size: 4rem;
+  color: #3d3d6b;
+  margin: 0;
+  font-weight: 300;
+}
+
+.app-title span {
+  font-weight: 700;
+  font-style: italic;
+  color: #3d3d6b;
+}
+
+.app-subtitle {
+  font-size: 1.5rem;
+  color: #666;
+  margin-top: 10px;
+  font-weight: 400;
+}
+
+.chat-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  overflow: hidden;
+  border-radius: 0;
+  background: transparent;
+  padding: 10px 0;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.chat-window::-webkit-scrollbar {
+  display: none;
+}
+
+.messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0 20px;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.messages::-webkit-scrollbar {
+  display: none;
+}
+
+.message {
+  margin: 10px 0px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 80%;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.user-message {
+  align-self: flex-end;
+  text-align: right;
+  margin-right: 0px;
+  margin-left: auto;
+}
+
+.bot-message {
+  align-self: flex-start;
+  text-align: left;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  margin: 0 20px 20px 20px;
+  padding: 15px 20px;
+  background-color: #ffffff;
+  border: 1px solid #cfd8dc;
+  border-radius: 30px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-container input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 15px;
+  font-size: 1rem;
+  background: transparent;
+  color: #333;
+}
+
+.input-container input::placeholder {
+  color: #9e9e9e;
+}
+
+.input-container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #607d8b;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.input-container button:hover {
+  background-color: #455a64;
+}
+
+.input-container svg {
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+}
+
+.reference-link {
+  color: #003366;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.reference-link:hover {
+  text-decoration: underline;
+  color: #000000;
+}
+
+.source-item {
+  margin-top: 10px;
+  margin-right: 60px;
+  margin-left: 60px;
+  font-size: 1rem;
+  padding: 10px 15px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #333333;
+  font-family: 'Arial', sans-serif;
+}
+
+.source-item a {
+  color: #003366;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.source-item a:hover {
+  text-decoration: none;
+  color: #000000;
+  font-weight: 600;
+}
+
+li {
+  padding-left: 10px;
+  margin: 10px 30px;
+}
+
+.example-questions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px auto;
+  padding: 10px 0;
+  max-width: 800px;
+  gap: 20px;
+}
+
+.example-question-box {
+  background-color: #ffffff;
+  border: 2px solid navy;
+  border-radius: 12px;
+  padding: 20px;
+  width: 240px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.example-question-box:hover {
+  background-color: #f0f8ff;
+  border-color: navy;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.example-question-box:active {
+  background-color: #e6f0ff;
+  transform: translateY(0);
+}
+
+.example-question-box svg {
+  margin-top: 10px;
+  width: 28px;
+  height: 28px;
+  color: #007bff;
+}
+
+.loading-dots {
+  padding: 1rem;
+}
+
+.dot-container {
+  display: flex;
+  gap: 4px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: #666;
+  border-radius: 50%;
+  animation: bounce 0.5s ease-in-out infinite;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
