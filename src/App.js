@@ -43,7 +43,7 @@ const App = () => {
         console.log("Token Endpoint:", tokenEndpoint);
         const response = await fetch(tokenEndpoint, { method: 'GET' }); // Fetch the token from the endpoint
         if (!response.ok) {
-          throw new Error(Failed to fetch token: ${response.statusText});
+          throw new Error(`Failed to fetch token: ${response.statusText}`);
         }
         const data = await response.json();
         const directLineToken = data.token;
@@ -64,7 +64,7 @@ const App = () => {
             }
           },
           (err) => {
-            setError(Error receiving activity: ${err});
+            setError(`Error receiving activity: ${err}`);
             setIsLoading(false); // Stop loading state on error
           }
         );
@@ -86,26 +86,56 @@ const App = () => {
 
   // Function to process the bot's response message and format it
   const processMessage = (text) => {
-    const sourceRegex = /\[(\d+)\]:\s*(https?:\/\/[^\s]+)\s*\"([^\"]+)\"/g; // Regex to find source references
+    // Regex to find source references like [1]: https://example.com "Title"
+    const sourceRegex = /\[(\d+)\]:\s*(https?:\/\/[^\s]+)\s*\"([^\"]+)\"/g;
     const references = [];
+  
+    // Remove extra duplicate references appearing in response
     let messageWithoutSources = text.replace(sourceRegex, (_, num, url, sourceName) => {
-      references.push({ num, url, sourceName }); // Extract references and remove them from the message
-      return '';
+      references.push({ num, url, sourceName });
+      return ''; // Remove from original text to avoid duplication
     });
-
-    const textWithClickableRefs = messageWithoutSources
-      .replace(/\\(.?)\\*/g, '<strong>$1</strong>') // Format bold text
-      .replace(/(?:^|\n)-\s*(\d+\.\s*[^\n]+)/g, '<li>$1</li>') // Format lists
-      .replace(/\[(\d+)\]/g, (match, num) => {
-        const ref = references.find((r) => r.num === num);
-        if (ref) {
-          return <a href='${ref.url}' target='_blank' class='reference-link'>[${num}]</a>; // Link references
+  
+    // Format Markdown-style bold (**bold text**) → <strong>bold text</strong>
+    messageWithoutSources = messageWithoutSources.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+    // Convert Markdown-style headings (### Heading) → <h3>Heading</h3>
+    messageWithoutSources = messageWithoutSources.replace(/###\s*(.*?)(?=\n|$)/g, '<h3>$1</h3>');
+  
+    // Insert clickable references inside the message itself
+    const formattedText = messageWithoutSources.replace(/\[(\d+)\]/g, (match, num) => {
+      const ref = references.find((r) => r.num === num);
+      if (ref) {
+        return `<a href="${ref.url}" target="_blank" class="reference-link">[${num}]</a>`; // Linked references
+      }
+      return match;
+    });
+  
+    // 🔥 **NEW FIX**: Only show links **once**, below the message if not already inside
+    let sourcesHTML = '';
+    const existingLinks = new Set(); // Track which links are already inside the message
+  
+    references.forEach((source) => {
+      if (!formattedText.includes(source.url)) {
+        // If the link is NOT already in the message, add it below
+        existingLinks.add(source.num);
+      }
+    });
+  
+    if (existingLinks.size > 0) {
+      sourcesHTML = '<div class="source-links">';
+      references.forEach((source) => {
+        if (existingLinks.has(source.num)) {
+          sourcesHTML += `<div><a href="${source.url}" target="_blank" class="reference-link">[${source.num}] ${source.sourceName}</a></div>`;
         }
-        return match;
       });
-
-    return { text: <ul>${textWithClickableRefs}</ul>, sources: references };
+      sourcesHTML += '</div>';
+    }
+  
+    return { text: formattedText + sourcesHTML, sources: references };
   };
+  
+  
 
   // Function to send a message to the bot
   const sendMessage = (messageText) => {
@@ -120,10 +150,10 @@ const App = () => {
         type: 'message',
         text: messageText,
       }).subscribe(
-        (id) => console.log(Message sent with ID: ${id}),
+        (id) => console.log(`Message sent with ID: ${id}`),
         (err) => {
           setIsLoading(false);
-          setError(Error sending message: ${err});
+          setError(`Error sending message: ${err}`);
         }
       );
       setInput(''); // Clear input field
@@ -150,7 +180,7 @@ const App = () => {
           <div className="chat-window" ref={chatWindowRef}>
             <div className="messages">
               {messages.map((message, index) => ( // Render each message
-                <div key={index} className={message ${message.from === 'User' ? 'user-message' : 'bot-message'}}>
+                <div key={index} className={`message ${message.from === 'User' ? 'user-message' : 'bot-message'}`}>
                   <div dangerouslySetInnerHTML={{ __html: message.text }}></div> {/* Display formatted text */}
                   {message.sources && message.sources.length > 0 && ( // Render sources if available
                     <div className="sources">
@@ -202,7 +232,7 @@ const App = () => {
               {exampleQuestions.map((question, index) => ( // Render example questions
                 <div
                   key={index}
-                  className={example-question-box ${isLoading ? 'disabled' : ''}}
+                  className={`example-question-box ${isLoading ? 'disabled' : ''}`}
                   onClick={() => !isLoading && sendMessage(question)} // Send example question on click
                 >
                   {question}
