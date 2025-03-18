@@ -1,20 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { DirectLine } from 'botframework-directlinejs';
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm'; // Enables GitHub-style Markdown (### headings, lists, bold)
+import remarkGfm from 'remark-gfm';
 import './App.css';
 
-const LoadingDots = () => {
-  return (
-    <div className="message bot-message loading-dots">
-      <div className="dot-container">
-        <div className="dot"></div>
-        <div className="dot"></div>
-        <div className="dot"></div>
-      </div>
+const LoadingDots = () => (
+  <div className="message bot-message loading-dots">
+    <div className="dot-container">
+      <div className="dot"></div>
+      <div className="dot"></div>
+      <div className="dot"></div>
     </div>
-  );
-};
+  </div>
+);
 
 const App = () => {
   const tokenEndpoint = process.env.REACT_APP_WEBSITE_TOKEN;
@@ -38,6 +36,7 @@ const App = () => {
   useEffect(() => {
     const initializeBotConnection = async () => {
       try {
+        console.log("Token Endpoint:", tokenEndpoint);
         const response = await fetch(tokenEndpoint, { method: 'GET' });
         if (!response.ok) {
           throw new Error(`Failed to fetch token: ${response.statusText}`);
@@ -54,7 +53,7 @@ const App = () => {
               setIsLoading(false);
               setMessages((prevMessages) => [
                 ...prevMessages,
-                { text: activity.text, from: activity.from.name },
+                { text: activity.text, from: activity.from.name }
               ]);
             }
           },
@@ -83,7 +82,7 @@ const App = () => {
       setIsLoading(true);
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text: messageText, from: 'User' },
+        { text: messageText, from: 'User' }
       ]);
       directLine.postActivity({
         from: { id: 'user1', name: 'User' },
@@ -120,8 +119,9 @@ const App = () => {
             <div className="messages">
               {messages.map((message, index) => (
                 <div key={index} className={`message ${message.from === 'User' ? 'user-message' : 'bot-message'}`}>
-                  {/* ✅ Renders Markdown Properly (Fix for ### headings) */}
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.text}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {message.text}
+                  </ReactMarkdown>
                 </div>
               ))}
               {isLoading && <LoadingDots />}
