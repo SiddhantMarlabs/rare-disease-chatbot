@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { DirectLine } from 'botframework-directlinejs';
-import ReactMarkdown from 'react-markdown';  // Import Markdown parser
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'; // Enables GitHub-style Markdown (### headings, lists, bold)
 import './App.css';
 
 const LoadingDots = () => {
@@ -37,7 +38,6 @@ const App = () => {
   useEffect(() => {
     const initializeBotConnection = async () => {
       try {
-        console.log("Token Endpoint:", tokenEndpoint);
         const response = await fetch(tokenEndpoint, { method: 'GET' });
         if (!response.ok) {
           throw new Error(`Failed to fetch token: ${response.statusText}`);
@@ -120,7 +120,8 @@ const App = () => {
             <div className="messages">
               {messages.map((message, index) => (
                 <div key={index} className={`message ${message.from === 'User' ? 'user-message' : 'bot-message'}`}>
-                  <ReactMarkdown>{message.text}</ReactMarkdown> {/* Correctly render Markdown */}
+                  {/* ✅ Renders Markdown Properly (Fix for ### headings) */}
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.text}</ReactMarkdown>
                 </div>
               ))}
               {isLoading && <LoadingDots />}
@@ -136,21 +137,8 @@ const App = () => {
                 disabled={isLoading}
                 className={isLoading ? 'input-disabled' : ''}
               />
-              <button
-                onClick={() => sendMessage(input)}
-                disabled={isLoading}
-                className={isLoading ? 'button-disabled' : ''}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-send"
-                >
+              <button onClick={() => sendMessage(input)} disabled={isLoading} className={isLoading ? 'button-disabled' : ''}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-send">
                   <line x1="22" y1="2" x2="11" y2="13"></line>
                   <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                 </svg>
@@ -158,11 +146,7 @@ const App = () => {
             </div>
             <div className="example-questions-row">
               {exampleQuestions.map((question, index) => (
-                <div
-                  key={index}
-                  className={`example-question-box ${isLoading ? 'disabled' : ''}`}
-                  onClick={() => !isLoading && sendMessage(question)}
-                >
+                <div key={index} className={`example-question-box ${isLoading ? 'disabled' : ''}`} onClick={() => !isLoading && sendMessage(question)}>
                   {question}
                 </div>
               ))}
