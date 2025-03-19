@@ -18,7 +18,7 @@ const LoadingDots = () => {
 // The main App component
 const App = () => {
   const tokenEndpoint = process.env.REACT_APP_WEBSITE_TOKEN; // Environment variable for the token endpoint
-  console.log('API Key:', tokenEndpoint); // Logs the API Key for debugging (remove in production)
+  // console.log('API Key:', tokenEndpoint); // Logs the API Key for debugging (remove in production)
 
   // State management using React hooks
   const [messages, setMessages] = useState([]); // Tracks messages in the chat
