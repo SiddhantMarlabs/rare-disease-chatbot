@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/rare-disease-chatbot/static/css/main.f18fd82a.css",
+    "main.css": "/rare-disease-chatbot/static/css/main.29ecffde.css",
     "main.js": "/rare-disease-chatbot/static/js/main.0746e7ae.js",
     "static/js/488.457310a8.chunk.js": "/rare-disease-chatbot/static/js/488.457310a8.chunk.js",
     "index.html": "/rare-disease-chatbot/index.html",
-    "main.f18fd82a.css.map": "/rare-disease-chatbot/static/css/main.f18fd82a.css.map",
+    "main.29ecffde.css.map": "/rare-disease-chatbot/static/css/main.29ecffde.css.map",
     "main.0746e7ae.js.map": "/rare-disease-chatbot/static/js/main.0746e7ae.js.map",
     "488.457310a8.chunk.js.map": "/rare-disease-chatbot/static/js/488.457310a8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f18fd82a.css",
+    "static/css/main.29ecffde.css",
     "static/js/main.0746e7ae.js"
   ]
 }
